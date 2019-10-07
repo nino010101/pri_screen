@@ -23,11 +23,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/css/buefy.scss'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '@/plugins/firebase' }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -40,13 +40,21 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
+    'nuxt-buefy'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  /**
+   * buefy option
+   */
+  buefy: {
+    css: false
+  },
   /*
    ** Build configuration
    */
@@ -54,6 +62,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    analyze: true,
     extend(config, ctx) {}
   }
 }

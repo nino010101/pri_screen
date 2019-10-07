@@ -1,68 +1,77 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        screen_sharing
+  <section id="main-section">
+    <div class="logo-container">
+      <h1 class="logo">
+        Pri Screen!
       </h1>
-      <h2 class="subtitle">
-        screen sharing app
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    </div>
+    <div class="menu-container">
+      <div class="menu-list">
+        <div class="menu-top">
+          <b-button
+            type="is-primary"
+            size="is-large"
+            class="button-big"
+            rounded
+            @click="doWebcast"
+          >
+            プリチャンを配信する！
+          </b-button>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
+  data() {
+    return {}
+  },
+  methods: {
+    doWebcast() {
+      this.$router.push('streamer')
+    }
   }
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style lang="scss" scoped>
+#main-section {
+  .logo-container {
+    padding-top: 64px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .logo {
+      font-size: 120px;
+      font-weight: bold;
+      color: #ff5e7c;
+    }
+  }
+  .menu-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      .menu-top {
+        margin-top: 32px;
+      }
+      .menu-bottom,
+      .menu-middle {
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .button {
+      &-big {
+        font-size: 21px;
+        font-weight: bold;
+      }
+    }
+  }
 }
 </style>
