@@ -1,6 +1,6 @@
-# screen_sharing
+# Pri Screen!
 
-> screen sharing app
+> プリチャン配信っぽいカンジに画面を配信して、それに対していいねを送ることができるWebRTCのアプリです
 
 ## Build Setup
 
@@ -13,10 +13,20 @@ $ yarn dev
 
 # build for production and launch server
 $ yarn build
-$ yarn start
 
-# generate static project
-$ yarn generate
+# deploy to firebase (need firebase-cli)
+$ firebase deploy
+
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## 開発環境の構築
+- このリポジトリをクローンします
+- `yarn install`します
+- Skywayとfirebaseに登録してappキーなどを取得します
+- 以下のような.envファイルをプロジェクトのrootに作成します
+```
+SKYWAY_APIKEY="skywayのキー"
+FIREBASE_CONFIG="firebase configのJsonString"
+```
+- `yarn dev`すると立ち上がります
+- わからなかったらツイッターとかで(@_pkpq_)まで連絡ください
