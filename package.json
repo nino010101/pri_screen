@@ -1,7 +1,8 @@
 {
-  "name": "screen_sharing",
+  "name": "pri_screen",
   "version": "1.0.0",
-  "description": "screen sharing app",
+  "license": "MIT",
+  "description": "screen sharing app for presentation.",
   "author": "nino01",
   "private": true,
   "scripts": {
