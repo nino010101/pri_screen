@@ -1,19 +1,13 @@
 <template>
   <section id="main">
     <div class="streamer-container">
-      <div class="screen">
-        <transition-group tag="div" class="iine-view" name="iine-view-anime">
-          <div v-for="iine in iines" :key="iine.count">
-            <IineStar
-              :x="iine.x"
-              :y="iine.y"
-              :is-small="true"
-              @iineDone="onIineDone()"
-            ></IineStar>
-          </div>
-        </transition-group>
-        <video muted class="videoFrame" autoplay></video>
-      </div>
+      <Screen
+        ref="screen"
+        :iines="iines"
+        :room-data="roomData"
+        :is-effect-small="true"
+        @iineDone="onIineDone()"
+      ></Screen>
       <div class="menu-container">
         <b-button type="is-primary" @click="startShare">
           配信をはじめる！
@@ -70,24 +64,22 @@
 
 <script>
 // 配信者側画面
-// TODO:streamer側の星を消す
 /* eslint-disable no-console */
 import Peer from 'skyway-js'
-import IineStar from '~/components/IineStar'
+import Screen from '~/components/Screen'
 import { getUniqueId, getIinePositions } from '~/utils/commonFunc'
 
 const peer = new Peer({ key: process.env.SKYWAY_APIKEY })
 const HOST = `${window.location.protocol}//${window.location.host}`
 
 export default {
-  components: { IineStar },
+  components: { Screen },
   data() {
     return {
       stream: null,
       call: null,
       iines: [],
       iineRef: null,
-      iineCount: 0,
       viewURL: '',
       cheerURL: '',
       roomData: {
@@ -130,7 +122,7 @@ export default {
         this.createRoom()
         this.viewURL = `${HOST}/viewer/${this.roomData.roomID}`
         this.cheerURL = `${HOST}/cheer/${this.roomData.roomID}`
-        this.addVideo(this.stream)
+        this.$refs.screen.addVideo(this.stream)
       } catch (e) {}
     },
     createRoom() {
@@ -174,10 +166,6 @@ export default {
       roomRef.set(null)
       this.$router.push('/')
     },
-    addVideo(stream) {
-      const video = document.querySelector('.videoFrame')
-      video.srcObject = stream
-    },
     recvIine(count) {
       const pattern = getIinePositions(640, 320, 24, count)
       this.iines.push(pattern[Math.floor(Math.random() * 4)])
@@ -199,18 +187,6 @@ export default {
 <style lang="scss" scoped>
 .streamer-container {
   margin: 16px;
-}
-
-.screen {
-  width: 640px;
-  height: 360px;
-  border: solid 1px;
-  background: #000;
-}
-
-.videoFrame {
-  width: 100%;
-  height: 100%;
 }
 
 .menu-container {

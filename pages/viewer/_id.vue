@@ -1,24 +1,13 @@
 <template>
   <section id="main">
     <div class="screen-container">
-      <div class="screen">
-        <transition-group tag="div" class="iine-view" name="iine-view-anime">
-          <div v-for="iine in iines" :key="iine.count">
-            <IineStar
-              :x="iine.x"
-              :y="iine.y"
-              @iineDone="onIineDone()"
-            ></IineStar>
-          </div>
-        </transition-group>
-        <video muted class="videoFrame" autoplay controls></video>
-        <div class="iine-overlay">
-          <p class="iine-text">{{ roomData.iineCount }} いいね</p>
-        </div>
-        <div class="roomname-overlay">
-          <p class="roomname-text">{{ roomData.roomName }}</p>
-        </div>
-      </div>
+      <Screen
+        ref="screen"
+        :iines="iines"
+        :room-data="roomData"
+        :size="roomSize"
+        @iineDone="onIineDone()"
+      ></Screen>
     </div>
     <div class="menu-container">
       <div class="menu-list">
@@ -49,13 +38,13 @@
 // TODO:止まるのなんとかする
 /* eslint-disable no-console */
 import Peer from 'skyway-js'
-import IineStar from '~/components/IineStar'
+import Screen from '~/components/Screen'
 import { getIinePositions } from '~/utils/commonFunc'
 
 const peer = new Peer({ key: process.env.SKYWAY_APIKEY })
 
 export default {
-  components: { IineStar },
+  components: { Screen },
   data() {
     return {
       stream: null,
@@ -63,7 +52,10 @@ export default {
       iines: [],
       databaseRef: null,
       iineRef: null,
-      iineCount: 0,
+      roomSize: {
+        width: 1280,
+        height: 720
+      },
       roomData: {
         roomID: null,
         roomName: '',
@@ -127,12 +119,8 @@ export default {
       this.call = call
       call.on('stream', (stream) => {
         this.stream = stream
-        this.addVideo(stream)
+        this.$refs.screen.addVideo(stream)
       })
-    },
-    addVideo(stream) {
-      const video = document.querySelector('.videoFrame')
-      video.srcObject = this.stream
     },
     closeRoom() {
       if (this.stream.getTracks()[0]) {
@@ -171,18 +159,6 @@ export default {
   justify-content: center;
   width: 100%;
 }
-.screen {
-  position: relative;
-  width: 1280px;
-  height: 720px;
-  border: solid 1px;
-  background-color: #000;
-}
-
-.videoFrame {
-  width: 100%;
-  height: 100%;
-}
 
 .menu-container {
   display: flex;
@@ -203,31 +179,6 @@ export default {
   }
   &-leave-to {
     opacity: 0;
-  }
-}
-.iine-overlay {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1100;
-  .iine-text {
-    font-size: 32px;
-    font-weight: bold;
-    -webkit-text-stroke: 1px #fff;
-    color: #ef6bff;
-  }
-}
-
-.roomname-overlay {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1100;
-  .roomname-text {
-    font-size: 32px;
-    font-weight: bold;
-    -webkit-text-stroke: 1px #fff;
-    color: #ef6bff;
   }
 }
 </style>
