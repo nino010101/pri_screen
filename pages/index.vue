@@ -13,6 +13,7 @@
             size="is-large"
             class="button-big"
             rounded
+            :disable="$device.isMobile"
             @click="doWebcast"
           >
             プリチャンを配信する！
