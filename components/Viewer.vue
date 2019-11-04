@@ -6,12 +6,13 @@
         :iines="iines"
         :room-data="roomData"
         :size="roomSize"
-        :is-effect-small="true"
+        :is-effect-small="false"
         :msg-list="dispMsgList"
         @iineDone="onIineDone()"
+        @onExpand="onExpand()"
       ></Screen>
     </div>
-    <div class="menu-container">
+    <div v-show="!roomSize.isExpand" class="menu-container">
       <div class="menu-list">
         <b-button
           class="menu-btn"
@@ -24,7 +25,7 @@
           いいね</b-button
         >
         <b-field class="menu-msg">
-          <b-input v-model="sendMsg" expanded maxlength="45"> </b-input>
+          <b-input v-model="sendMsg" expanded maxlength="60"> </b-input>
           <p class="control">
             <button class="button is-primary" @click="doSendMsg">送信</button>
           </p>
@@ -63,7 +64,9 @@ export default {
       msgRef: null,
       roomSize: {
         width: 800,
-        height: 450
+        height: 450,
+        starSize: 48,
+        isExpand: false
       },
       roomData: {
         roomID: null,
@@ -89,8 +92,7 @@ export default {
           message: 'ルームが存在しません',
           type: 'is-danger',
           hasIcon: true,
-          icon: 'times-circle',
-          iconPack: 'fa',
+          icon: 'alert-circle',
           onConfirm: () => this.$router.push('/')
         })
       }
@@ -121,8 +123,7 @@ export default {
             message: '配信が終了しました、画面を閉じてください',
             type: 'is-danger',
             hasIcon: true,
-            icon: 'times-circle',
-            iconPack: 'fa',
+            icon: 'alert-circle',
             onConfirm: () => this.closeRoom()
           })
         }
@@ -170,7 +171,7 @@ export default {
       const pattern = getIinePositions(
         this.roomSize.width,
         this.roomSize.height,
-        48,
+        this.roomSize.starSize,
         count
       )
       this.iines.push(pattern[Math.floor(Math.random() * 4)])
@@ -184,6 +185,29 @@ export default {
       if (this.sendMsg !== '') {
         this.msgRef.push({ msg: this.sendMsg })
         this.sendMsg = ''
+      }
+    },
+    onExpand() {
+      if (this.roomSize.isExpand) {
+        this.roomSize.width = 800
+        this.roomSize.height = 450
+        this.roomSize.isExpand = false
+        window.onresize = null
+      } else {
+        const vw = window.innerWidth
+        const vh = window.innerHeight
+        this.roomSize.width = vw
+        this.roomSize.height = vh
+        this.roomSize.isExpand = true
+        window.onresize = this.onResize
+      }
+    },
+    onResize() {
+      if (this.roomSize.isExpand) {
+        const vw = window.innerWidth
+        const vh = window.innerHeight
+        this.roomSize.width = vw
+        this.roomSize.height = vh
       }
     }
   }

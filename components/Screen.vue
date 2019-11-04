@@ -26,12 +26,15 @@
         <p class="msg">{{ val.msg }}</p>
       </div>
     </transition-group>
-    <video muted class="videoFrame" autoplay controls></video>
+    <video muted class="videoFrame" autoplay></video>
     <div class="iine-overlay">
       <p class="iine-text">{{ roomData.iineCount }} いいね</p>
     </div>
     <div class="roomname-overlay">
       <p class="roomname-text">{{ roomData.roomName }}</p>
+    </div>
+    <div class="expand-button" @click="doExpand()">
+      <b-icon icon="arrow-expand" class="expand"></b-icon>
     </div>
   </div>
 </template>
@@ -80,6 +83,9 @@ export default {
     getCurrentTime() {
       const video = document.querySelector('.videoFrame')
       return video.currentTime
+    },
+    doExpand() {
+      this.$emit('onExpand')
     }
   }
 }
@@ -90,6 +96,7 @@ export default {
   border: solid 1px;
   background: #000;
   position: relative;
+  overflow: hidden;
 }
 
 .videoFrame {
@@ -123,6 +130,16 @@ export default {
   }
 }
 
+.expand-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1100;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+}
+
 .msgBoxWrapper {
   position: absolute;
   bottom: 10px;
@@ -131,7 +148,7 @@ export default {
   .msgBox {
     width: 300px;
     background-color: #000;
-    padding: 4px;
+    padding: 4px 8px 4px 8px;
     margin-top: 4px;
     border-radius: 8px;
 

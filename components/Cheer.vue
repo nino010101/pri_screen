@@ -17,7 +17,7 @@
       </div>
       <p class="msg-label">メッセージを送る</p>
       <b-field class="menu-msg">
-        <b-input v-model="sendMsg" expanded maxlength="45"> </b-input>
+        <b-input v-model="sendMsg" expanded maxlength="60"> </b-input>
         <p class="control">
           <button class="button is-primary" @click="doSendMsg">送信</button>
         </p>
@@ -61,8 +61,7 @@ export default {
             message: 'ルームが存在しません',
             type: 'is-danger',
             hasIcon: true,
-            icon: 'times-circle',
-            iconPack: 'fa',
+            icon: 'alert-circle',
             onConfirm: () => this.$router.push('/')
           })
         }
@@ -83,7 +82,6 @@ export default {
         .database()
         .ref('rooms/' + this.roomData.roomID + '/msgList')
       this.iineRef.on('value', (snapshot) => {
-        // console.log(snapshot.val())
         this.roomData.iineCount = snapshot.val()
         if (snapshot.val() === null) {
           this.$buefy.dialog.alert({
@@ -91,8 +89,7 @@ export default {
             message: '配信が終了しました、画面を閉じてください',
             type: 'is-danger',
             hasIcon: true,
-            icon: 'times-circle',
-            iconPack: 'fa',
+            icon: 'alert-circle',
             onConfirm: () => this.$router.push('/')
           })
         }
