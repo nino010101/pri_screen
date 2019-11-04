@@ -18,7 +18,7 @@ export const getIinePositions = (width, height, size, count) => {
     },
     {
       x: size + Math.floor(Math.random() * (width - size * 2)),
-      y: size + Math.floor(Math.random() * (size / 2)),
+      y: 0 + Math.floor(Math.random() * (size / 2)),
       count
     },
     {
