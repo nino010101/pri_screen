@@ -24,7 +24,7 @@
           いいね</b-button
         >
         <b-field class="menu-msg">
-          <b-input v-model="sendMsg" expanded> </b-input>
+          <b-input v-model="sendMsg" expanded maxlength="45"> </b-input>
           <p class="control">
             <button class="button is-primary" @click="doSendMsg">送信</button>
           </p>
@@ -142,8 +142,6 @@ export default {
           }, 10000)
           this.dispMsgList.push({ msg: snapshot.val().msg, timeoutID })
         }
-        console.dir(this.msgList)
-        console.dir(this.dispMsgList)
       })
     },
     // skywayのイベントハンドラ

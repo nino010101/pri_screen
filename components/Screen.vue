@@ -22,7 +22,7 @@
       </div>
     </transition-group>
     <transition-group tag="div" class="msgBoxWrapper" name="msgBoxList">
-      <div v-for="(val, idx) in msgList" :key="idx" class="msgBox">
+      <div v-for="val in msgList" :key="val.timeoutID" class="msgBox">
         <p class="msg">{{ val.msg }}</p>
       </div>
     </transition-group>
@@ -76,6 +76,10 @@ export default {
     addVideo(stream) {
       const video = document.querySelector('.videoFrame')
       video.srcObject = stream
+    },
+    getCurrentTime() {
+      const video = document.querySelector('.videoFrame')
+      return video.currentTime
     }
   }
 }
@@ -134,6 +138,7 @@ export default {
     .msg {
       color: #fff;
       font-weight: bold;
+      word-wrap: break-word;
     }
   }
 }

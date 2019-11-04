@@ -15,6 +15,13 @@
           いいね</b-button
         >
       </div>
+      <p class="msg-label">メッセージを送る</p>
+      <b-field class="menu-msg">
+        <b-input v-model="sendMsg" expanded maxlength="45"> </b-input>
+        <p class="control">
+          <button class="button is-primary" @click="doSendMsg">送信</button>
+        </p>
+      </b-field>
     </div>
   </section>
 </template>
@@ -28,6 +35,8 @@ export default {
     return {
       databaseRef: null,
       iineRef: null,
+      msgReg: null,
+      sendMsg: '',
       roomData: {
         roomID: null,
         roomName: '',
@@ -70,6 +79,9 @@ export default {
       this.iineRef = this.$firebase
         .database()
         .ref('rooms/' + this.roomData.roomID + '/iineCount')
+      this.msgRef = this.$firebase
+        .database()
+        .ref('rooms/' + this.roomData.roomID + '/msgList')
       this.iineRef.on('value', (snapshot) => {
         // console.log(snapshot.val())
         this.roomData.iineCount = snapshot.val()
@@ -97,6 +109,12 @@ export default {
         this.roomData.iineCount += 1
         this.iineRef.set(this.roomData.iineCount)
       })
+    },
+    doSendMsg() {
+      if (this.sendMsg !== '') {
+        this.msgRef.push({ msg: this.sendMsg })
+        this.sendMsg = ''
+      }
     }
   }
 }
@@ -131,6 +149,18 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 16px;
+  }
+
+  .msg-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .menu-msg {
+    width: 80vw;
+    margin: 12px auto;
   }
 }
 </style>
