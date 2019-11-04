@@ -29,4 +29,4 @@ SKYWAY_APIKEY="skywayのキー"
 FIREBASE_CONFIG="firebase configのJsonString"
 ```
 - `yarn dev`すると立ち上がります
-- わからなかったらツイッターとかで(@_pkpq_)まで連絡ください
+- わからなかったらツイッターとかで(`@_pkpq_`)まで連絡ください
