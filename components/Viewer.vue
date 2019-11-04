@@ -6,6 +6,8 @@
         :iines="iines"
         :room-data="roomData"
         :size="roomSize"
+        :is-effect-small="true"
+        :msg-list="dispMsgList"
         @iineDone="onIineDone()"
       ></Screen>
     </div>
@@ -21,6 +23,12 @@
         >
           いいね</b-button
         >
+        <b-field class="menu-msg">
+          <b-input v-model="sendMsg" expanded> </b-input>
+          <p class="control">
+            <button class="button is-primary" @click="doSendMsg">送信</button>
+          </p>
+        </b-field>
         <b-button
           type="is-light"
           size="is-small"
@@ -52,15 +60,19 @@ export default {
       iines: [],
       databaseRef: null,
       iineRef: null,
+      msgRef: null,
       roomSize: {
-        width: 1280,
-        height: 720
+        width: 800,
+        height: 450
       },
       roomData: {
         roomID: null,
         roomName: '',
         iineCount: 0
-      }
+      },
+      sendMsg: '',
+      msgList: [],
+      dispMsgList: []
     }
   },
   mounted() {
@@ -97,6 +109,9 @@ export default {
       this.iineRef = this.$firebase
         .database()
         .ref('rooms/' + this.roomData.roomID + '/iineCount')
+      this.msgRef = this.$firebase
+        .database()
+        .ref('rooms/' + this.roomData.roomID + '/msgList')
       this.iineRef.on('value', (snapshot) => {
         this.roomData.iineCount = snapshot.val()
         this.recvIine(this.roomData.iineCount)
@@ -112,10 +127,27 @@ export default {
           })
         }
       })
+      this.msgRef.on('child_added', (snapshot) => {
+        this.msgList.push(snapshot.val().msg)
+        if (this.dispMsgList.length > 2) {
+          const shift = this.dispMsgList.shift()
+          window.clearTimeout(shift.timeoutID)
+          const timeoutID = window.setTimeout(() => {
+            this.dispMsgList.shift()
+          }, 10000)
+          this.dispMsgList.push({ msg: snapshot.val().msg, timeoutID })
+        } else {
+          const timeoutID = window.setTimeout(() => {
+            this.dispMsgList.shift()
+          }, 10000)
+          this.dispMsgList.push({ msg: snapshot.val().msg, timeoutID })
+        }
+        console.dir(this.msgList)
+        console.dir(this.dispMsgList)
+      })
     },
     // skywayのイベントハンドラ
     callEventHandlers(call) {
-      console.dir(call)
       this.call = call
       call.on('stream', (stream) => {
         this.stream = stream
@@ -137,13 +169,24 @@ export default {
       })
     },
     recvIine(count) {
-      const pattern = getIinePositions(1280, 720, 48, count)
+      const pattern = getIinePositions(
+        this.roomSize.width,
+        this.roomSize.height,
+        48,
+        count
+      )
       this.iines.push(pattern[Math.floor(Math.random() * 4)])
     },
     onIineDone() {
       this.$nextTick(() => {
         if (this.iines.length > 30) this.iines.splice(0, 30)
       })
+    },
+    doSendMsg() {
+      if (this.sendMsg !== '') {
+        this.msgRef.push({ msg: this.sendMsg })
+        this.sendMsg = ''
+      }
     }
   }
 }
@@ -169,7 +212,10 @@ export default {
     display: flex;
     flex-direction: column;
     .menu-btn {
-      margin-top: 8px;
+      margin-top: 16px;
+    }
+    .menu-msg {
+      margin-top: 16px;
     }
   }
 }

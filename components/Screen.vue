@@ -21,6 +21,11 @@
         ></IineStar>
       </div>
     </transition-group>
+    <transition-group tag="div" class="msgBoxWrapper" name="msgBoxList">
+      <div v-for="(val, idx) in msgList" :key="idx" class="msgBox">
+        <p class="msg">{{ val.msg }}</p>
+      </div>
+    </transition-group>
     <video muted class="videoFrame" autoplay controls></video>
     <div class="iine-overlay">
       <p class="iine-text">{{ roomData.iineCount }} いいね</p>
@@ -58,6 +63,10 @@ export default {
     roomData: {
       type: Object,
       required: true
+    },
+    msgList: {
+      type: Array,
+      default: null
     }
   },
   methods: {
@@ -108,5 +117,35 @@ export default {
     -webkit-text-stroke: 1px #fff;
     color: #ef6bff;
   }
+}
+
+.msgBoxWrapper {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0.5;
+  .msgBox {
+    width: 300px;
+    background-color: #000;
+    padding: 4px;
+    margin-top: 4px;
+    border-radius: 8px;
+
+    .msg {
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+}
+.msgBoxList-enter-active,
+.msgBoxList-leave-active {
+  transition: all 0.5s;
+}
+.msgBoxList-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.msgBoxList-leave-to {
+  opacity: 0;
 }
 </style>
