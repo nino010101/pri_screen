@@ -18,10 +18,10 @@
       </div>
       <div class="menu-container">
         <b-button type="is-primary" @click="startShare">
-          配信をはじめる！
+          配信を開始する
         </b-button>
         <b-button type="is-light" @click="finishStream">
-          配信をおわる！
+          配信を終了する
         </b-button>
       </div>
       <div class="info-container">

@@ -18,8 +18,6 @@
           class="menu-btn"
           size="is-large"
           type="is-primary"
-          rounded
-          icon-right="heart"
           @click="doIine"
         >
           いいね</b-button

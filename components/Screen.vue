@@ -113,7 +113,7 @@ export default {
     font-size: 32px;
     font-weight: bold;
     -webkit-text-stroke: 1px #fff;
-    color: #ef6bff;
+    color: #4099ff;
   }
 }
 
@@ -126,7 +126,7 @@ export default {
     font-size: 32px;
     font-weight: bold;
     -webkit-text-stroke: 1px #fff;
-    color: #ef6bff;
+    color: #4099ff;
   }
 }
 

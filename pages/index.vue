@@ -2,7 +2,7 @@
   <section id="main-section">
     <div class="logo-container">
       <h1 class="logo">
-        Pri Screen!
+        LT Screen!
       </h1>
     </div>
     <div class="menu-container">
@@ -16,7 +16,7 @@
             :disable="$device.isMobile"
             @click="doWebcast"
           >
-            プリチャンを配信する！
+            配信を開始する
           </b-button>
         </div>
       </div>
@@ -47,7 +47,7 @@ export default {
     .logo {
       font-size: 120px;
       font-weight: bold;
-      color: #ff5e7c;
+      color: #4099ff;
     }
   }
   .menu-container {

@@ -1,15 +1,13 @@
 <template>
   <section id="main">
     <div class="main-container">
-      <h1 class="title">応援しよう！</h1>
+      <h1 class="title">応援する</h1>
       <p class="iine-counter">{{ roomData.iineCount }}いいね</p>
       <div class="iine-button">
         <b-button
           class="menu-btn"
           size="is-large"
           type="is-primary"
-          rounded
-          icon-right="heart"
           @click="doIine"
         >
           いいね</b-button
@@ -131,7 +129,7 @@ export default {
     font-size: 32px;
     font-weight: bold;
     margin-top: 32px;
-    color: #e856ba;
+    color: 4099ff;
     text-align: center;
   }
 
